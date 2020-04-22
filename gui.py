@@ -1,6 +1,5 @@
 from tkinter import *
 import sqlite3
-from datetime import date
 import datetime
 
 root = Tk()
@@ -44,6 +43,14 @@ def submit():
 
     # Close the connection
     conn.close()
+
+    # Shows what was just inserted
+    my_label = Label(root, text=e_batch.get())
+    my_label.grid(row=2, column=1, pady=(100, 0))
+
+    # deletes the entry box
+    e_batch.delete(0, END)
+
 
 
 
