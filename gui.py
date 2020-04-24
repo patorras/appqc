@@ -1,24 +1,13 @@
 from tkinter import *
 import sqlite3
 import datetime
+from PIL import ImageTk, Image
 
 root = Tk()
 
 root.title("Samples entry")
 root.geometry("500x600")
 
-
-# connects to database
-#conn = sqlite3.connect('samples.db')
-
-# Create a cursor
-#c = conn.cursor()
-
-# Create TABLE
-#c.execute("""CREATE TABLE samples (
-        #batch text,
-        #moment text,
-        #date datetime)""")
 
 
 #########################################################################################################################################
