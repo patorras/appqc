@@ -2,6 +2,9 @@ from tkinter import *
 import sqlite3
 import datetime
 from PIL import ImageTk, Image
+import sqlalchemy
+import urllib
+import pandas as pd
 
 root = Tk()
 
@@ -10,28 +13,41 @@ root.geometry("500x600")
 
 
 
+
+
 #########################################################################################################################################
 # function to submit entrys
 def submit():
     # connects to database
-    conn = sqlite3.connect('samples.db')
+    quoted = urllib.parse.quote_plus('DRIVER={SQL Server};'
+                                 'Server=ORDEUUATREP01\\SQLSERVER2012;'
+                                 'Database=EUDaxViewReport;'
+                                 'UID=report_viewer;'
+                                 'PWD=awdr@123;'
+                                 'Trusted_Connection=yes')
 
     # Create a cursor
-    c = conn.cursor()
+    engine = sqlalchemy.create_engine('mssql+pyodbc:///?odbc_connect={}'.format(quoted))
 
-    # Fills the table
-    c.execute("INSERT INTO samples VALUES(:batch, :moment, :date)",
-    {
-        "batch": e_batch.get(),
-        "moment": clicked.get(),
-        "date": datetime.datetime.now()
-    })
+    array={"id":[1],
+       "batch":["345156345-R-0101"],
+       "date":[datetime.datetime.now()],
+       "moment":["in"]}
+
+ 
+
+    new=pd.DataFrame(array)
+   
+
+    new.to_sql('stress_sl', con=engine,if_exists="append",index=True)
+
+
 
     # commit the data
-    conn.commit()
+    #engine.commit()
 
     # Close the connection
-    conn.close()
+    #engine.close()
 
     # Shows what was just inserted
     my_label = Label(root, text=e_batch.get())
@@ -108,3 +124,4 @@ edit.grid(row=3, columnspan=3, pady=(10, 0))
 
 
 root.mainloop()
+
